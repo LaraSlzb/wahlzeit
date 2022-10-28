@@ -1,10 +1,6 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.DataObject;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * cartesian coordinates for location
@@ -51,7 +47,7 @@ public class Coordinate {
     */
    public double getDistance(Coordinate coordinate){
       if(coordinate == null){
-         throw new IllegalArgumentException();
+         throw new IllegalArgumentException("argument cannot be null");
       }
       double temp_x = coordinate.getX() - x;
       double temp_y = coordinate.getY() - y;
@@ -68,7 +64,7 @@ public class Coordinate {
       if(coordinate == null){
          return false;
       }
-      return this.x==coordinate.x && this.y==coordinate.y && this.z==coordinate.z;
+      return getDistance(coordinate) <= 0.00001;
    }
 
    /**
@@ -82,5 +78,14 @@ public class Coordinate {
          return isEqual((Coordinate) o);
       }
       return false;
+   }
+
+   /**
+    * hashCode has to be overwritten as equals was overwritten
+    * @return hash from x, y, z
+    */
+   @Override
+   public int hashCode(){
+      return Objects.hash(this.x, this.y, this.z);
    }
 }

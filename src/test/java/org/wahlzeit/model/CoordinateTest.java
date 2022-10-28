@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 public class CoordinateTest {
 
+    double e = 0.00001;
     @Test
     public void testGet(){
         double x = -5;
@@ -13,9 +14,9 @@ public class CoordinateTest {
         double z = 3.45;
         Coordinate coordinate = new Coordinate(x, y, z);
 
-        assertEquals(x, coordinate.getX(), 0);
-        assertEquals(y, coordinate.getY(), 0);
-        assertEquals(z, coordinate.getZ(), 0);
+        assertEquals(x, coordinate.getX(), e);
+        assertEquals(y, coordinate.getY(), e);
+        assertEquals(z, coordinate.getZ(), e);
     }
 
     @Test
@@ -27,16 +28,16 @@ public class CoordinateTest {
         Coordinate coordinate5 = new Coordinate(0, 0, Double.MAX_VALUE);
         Coordinate coordinate6 = new Coordinate(0, 0, Double.MIN_VALUE);
 
-        assertEquals(0, coordinate1.getDistance(coordinate1), 0);
-        assertEquals(0, coordinate2.getDistance(coordinate2), 0);
-        assertEquals(0, coordinate3.getDistance(coordinate3), 0);
-        assertEquals(0, coordinate4.getDistance(coordinate4), 0);
-        assertEquals(0, coordinate5.getDistance(coordinate5), 0);
+        assertEquals(0, coordinate1.getDistance(coordinate1), e);
+        assertEquals(0, coordinate2.getDistance(coordinate2), e);
+        assertEquals(0, coordinate3.getDistance(coordinate3), e);
+        assertEquals(0, coordinate4.getDistance(coordinate4), e);
+        assertEquals(0, coordinate5.getDistance(coordinate5), e);
 
-        assertEquals(5, coordinate1.getDistance(coordinate2), 0);
-        assertEquals(5, coordinate3.getDistance(coordinate4), 0);
-        assertEquals(Double.POSITIVE_INFINITY, coordinate5.getDistance(coordinate6), 0);
-        assertEquals(Double.POSITIVE_INFINITY, coordinate2.getDistance(coordinate5), 0);
+        assertEquals(5, coordinate1.getDistance(coordinate2), e);
+        assertEquals(5, coordinate3.getDistance(coordinate4), e);
+        assertEquals(Double.POSITIVE_INFINITY, coordinate5.getDistance(coordinate6), e);
+        assertEquals(Double.POSITIVE_INFINITY, coordinate2.getDistance(coordinate5), e);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -47,6 +48,7 @@ public class CoordinateTest {
 
     @Test
     public void testIsEqual() {
+        Coordinate coordinate0 = new Coordinate(0, 0, 0);
         Coordinate coordinate1 = new Coordinate(0, 0, 0);
         Coordinate coordinate2 = new Coordinate(0, 3, -4);
         Coordinate coordinate3 = new Coordinate(1.2, 4.3, 3.4);
@@ -54,6 +56,7 @@ public class CoordinateTest {
         Coordinate coordinate5 = new Coordinate(0, 0, Double.MAX_VALUE);
         Coordinate coordinate6 = new Coordinate(0, 0, Double.MIN_VALUE);
 
+        assertTrue(coordinate0.isEqual(coordinate1));
         assertTrue(coordinate1.isEqual(coordinate1));
         assertTrue(coordinate2.isEqual(coordinate2));
         assertTrue(coordinate3.isEqual(coordinate3));
@@ -69,11 +72,14 @@ public class CoordinateTest {
     }
 
     @Test
-    public void testEqual(){
+    public void testEqualsAndHashCode(){
         Coordinate coordinate1 = new Coordinate(0, 0, 0);
         Coordinate coordinate2 = new Coordinate(0, 3, -4);
+        Coordinate coordinate3 = new Coordinate(0, 3, -4);
 
         assertTrue(coordinate1.equals(coordinate1));
+        assertTrue(coordinate2.equals(coordinate3));
+        assertEquals(coordinate2.hashCode(), coordinate3.hashCode());
         assertFalse(coordinate1.equals(coordinate2));
         assertFalse(coordinate1.equals(null));
         assertFalse(coordinate1.equals(new Object()));

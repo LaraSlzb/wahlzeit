@@ -93,6 +93,7 @@ public class Photo extends DataObject {
 	 * Location of the photo
 	 */
 	protected Location location;
+	protected int location_id;
 	/**
 	 * 
 	 */
@@ -477,9 +478,21 @@ public class Photo extends DataObject {
 
 	/**
 	 *
+	 * @methodtype get
+	 */
+	public int getLocation_id(){
+		return location_id;
+	}
+
+	/**
+	 *
 	 * @methodtype set
 	 */
 	public void setLocation(Location newLocation){
 		location = newLocation;
+		if(newLocation != null){
+			location_id = newLocation.getId();
+		}
+		incWriteCount();
 	}
 }
