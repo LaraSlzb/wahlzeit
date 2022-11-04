@@ -8,6 +8,7 @@ package org.wahlzeit.handlers;
 import java.util.*;
 
 import org.wahlzeit.model.*;
+import org.wahlzeit.model.landscape.LandcapePhotoManager;
 import org.wahlzeit.webparts.*;
 
 /**
@@ -51,7 +52,7 @@ public class AdminUserPhotoFormHandler extends AbstractWebFormHandler {
 		String status = us.getAndSaveAsString(args, Photo.STATUS);
 		photo.setStatus(PhotoStatus.getFromString(status));
 
-		PhotoManager pm = PhotoManager.getInstance();
+		PhotoManager pm = LandcapePhotoManager.getInstance();
 		pm.savePhoto(photo);
 		
 		StringBuffer sb = UserLog.createActionEntry("AdminUserPhoto");
