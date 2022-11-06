@@ -10,8 +10,6 @@ import java.io.FileFilter;
 import java.sql.*;
 
 import org.wahlzeit.model.*;
-import org.wahlzeit.model.landscape.LandcapePhotoManager;
-import org.wahlzeit.model.landscape.LandscapePhotoFactory;
 import org.wahlzeit.services.*;
 import org.wahlzeit.servlets.AbstractServlet;
 
@@ -23,7 +21,7 @@ public abstract class ModelMain extends AbstractMain {
 	/**
 	 * 
 	 */
-	protected void startUp(String rootDir) throws Exception {
+	protected void startUp(String rootDir, boolean modelMain) throws Exception {
 		super.startUp(rootDir);
 
 		if (!hasGlobals()) {
@@ -33,7 +31,7 @@ public abstract class ModelMain extends AbstractMain {
 		
  		loadGlobals();
 
-		LandscapePhotoFactory.initialize();
+		PhotoFactory.initialize();
 	}
 	
 	/**
@@ -79,7 +77,7 @@ public abstract class ModelMain extends AbstractMain {
 		User user = new User(userName, password, emailAddress, confirmationCode);
 		userManager.addUser(user);
 		
-		PhotoManager photoManager = LandcapePhotoManager.getInstance();
+		PhotoManager photoManager = PhotoManager.getInstance();
 		File photoDirFile = new File(photoDir);
 		FileFilter photoFileFilter = new FileFilter() {
 			public boolean accept(File file) {
@@ -165,7 +163,7 @@ public abstract class ModelMain extends AbstractMain {
 	 */
 	public void saveAll() throws SQLException {
 		PhotoCaseManager.getInstance().savePhotoCases();
-		LandcapePhotoManager.getInstance().savePhotos();
+		PhotoManager.getInstance().savePhotos();
 		UserManager.getInstance().saveUsers();
 
 		saveGlobals();

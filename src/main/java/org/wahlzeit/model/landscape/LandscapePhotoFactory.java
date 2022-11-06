@@ -1,6 +1,5 @@
 package org.wahlzeit.model.landscape;
 
-import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoFactory;
 import org.wahlzeit.model.PhotoId;
 import org.wahlzeit.services.SysLog;
@@ -17,7 +16,7 @@ public class LandscapePhotoFactory extends PhotoFactory {
     /**
      * Public singleton access method.
      */
-    public static synchronized PhotoFactory getInstance() {
+    public static synchronized LandscapePhotoFactory getInstance() {
         if (instance == null) {
             SysLog.logSysInfo("setting generic PhotoFactory");
             setInstance(new LandscapePhotoFactory());
@@ -45,21 +44,21 @@ public class LandscapePhotoFactory extends PhotoFactory {
     /**
      * @methodtype factory
      */
-    public Photo createPhoto() {
+    public LandscapePhoto createPhoto() {
         return new LandscapePhoto();
     }
 
     /**
      *
      */
-    public Photo createPhoto(PhotoId id) {
+    public LandscapePhoto createPhoto(PhotoId id) {
         return new LandscapePhoto(id);
     }
 
     /**
      *
      */
-    public Photo createPhoto(ResultSet rs) throws SQLException {
+    public LandscapePhoto createPhoto(ResultSet rs) throws SQLException {
         return new LandscapePhoto(rs);
     }
 }
