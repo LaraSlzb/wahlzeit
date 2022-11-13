@@ -2,6 +2,8 @@ package org.wahlzeit.model;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.wahlzeit.model.coordinates.CartesianCoordinate;
+import org.wahlzeit.model.coordinates.SpericCoordinate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -15,10 +17,11 @@ public class PhotoTest {
     }
 
     @Test
-    public void testLocation(){
+    public void testLocationWithCartesianCoordinate(){
         assertNull(photo.getLocation());
 
-        Location location = new Location(0,0,0, 1);
+        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(0, 0, 1);
+        Location location = new Location(cartesianCoordinate,  1);
         photo.setLocation(location);
         assertEquals(location, photo.getLocation());
         assertEquals(1, photo.getLocation_id());

@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.model.coordinates.CartesianCoordinate;
+import org.wahlzeit.model.coordinates.Coordinate;
 import org.wahlzeit.services.DataObject;
 
 import java.sql.PreparedStatement;
@@ -21,9 +23,12 @@ public class Location extends DataObject{
     /**
      * Constructor, id has to be unique as it is primary key
      */
-    public Location(double x, double y, double z, int id){
+    public Location(Coordinate coordinate, int id){
+        if(coordinate == null){
+            throw new IllegalArgumentException("Coordinate cannot be null");
+        }
         this.id = id;
-        this.coordinate = new Coordinate(x, y, z);
+        this.coordinate = coordinate;
         incWriteCount();
     }
 
@@ -38,8 +43,11 @@ public class Location extends DataObject{
      *
      * methodtype=set
      */
-    public void setCoordinate(double x, double y, double z) {
-        this.coordinate = new Coordinate(x, y, z);
+    public void setCoordinate(Coordinate coordinate) {
+        if(coordinate == null){
+            throw new IllegalArgumentException("Coordinate cannot be set null");
+        }
+        this.coordinate = coordinate;
         incWriteCount();
     }
 
@@ -59,16 +67,18 @@ public class Location extends DataObject{
     @Override
     public void readFrom(ResultSet rset) throws SQLException {
         this.id = rset.getInt("id");
-        this.coordinate = new Coordinate(rset.getDouble("x"),
+        this.coordinate = new CartesianCoordinate(rset.getDouble("x"),
                 rset.getDouble("y"), rset.getDouble("z"));
     }
 
     @Override
     public void writeOn(ResultSet rset) throws SQLException {
         rset.updateInt("id", this.id);
-        rset.updateDouble("x", this.coordinate.getX());
-        rset.updateDouble("y", this.coordinate.getY());
-        rset.updateDouble("z", this.coordinate.getZ());
+        if(this.coordinate != null){
+            rset.updateDouble("x", this.coordinate.asCartesianCoordinate().getX());
+            rset.updateDouble("y", this.coordinate.asCartesianCoordinate().getY());
+            rset.updateDouble("z", this.coordinate.asCartesianCoordinate().getZ());
+        }
     }
 
     @Override
