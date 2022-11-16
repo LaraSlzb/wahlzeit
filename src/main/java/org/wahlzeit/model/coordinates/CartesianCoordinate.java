@@ -55,6 +55,9 @@ public class CartesianCoordinate extends AbstractCoordinate{
     */
    @Override
    public SpericCoordinate asSpericCoordinate() {
+      if(getX() == 0 && getY() == 0 && getZ() == 0){
+         return new SpericCoordinate(0,0,0);
+      }
       double radius = this.getCartesianDistance(new CartesianCoordinate(0, 0, 0));
       double latitude = Math.asin(getZ()/radius);
       double longitude = getArcTan(getY(), getX());
@@ -86,26 +89,5 @@ public class CartesianCoordinate extends AbstractCoordinate{
       return Math.atan(y/x);
    }
 
-   /**
-    * Tests if 2 cartesian coordinates are equal
-    * @param coordinate to compare with
-    * @return true if distance is 0
-    */
-   @Override
-   public boolean isEqual(Coordinate coordinate) {
-      if (coordinate == null) {
-         return false;
-      }
-      return getCartesianDistance(coordinate) <= E;
-   }
 
-   /**
-    * hashCode has to be overwritten as equals was overwritten
-    * @return hash from x, y, z
-    */
-   @Override
-   public int hashCode(){
-      CartesianCoordinate coordinate = this.asCartesianCoordinate();
-      return Objects.hash(coordinate.getX(), coordinate.getY(), coordinate.getZ());
-   }
 }

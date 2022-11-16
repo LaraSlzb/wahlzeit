@@ -2,6 +2,7 @@ package org.wahlzeit.model.coordinate;
 
 import org.junit.Test;
 import org.wahlzeit.model.coordinates.CartesianCoordinate;
+import org.wahlzeit.model.coordinates.SpericCoordinate;
 
 import static org.junit.Assert.*;
 
@@ -88,6 +89,29 @@ public class CartesianCoordinateTest {
         assertFalse(coordinate1.equals(coordinate2));
         assertFalse(coordinate1.equals(null));
         assertFalse(coordinate1.equals(new Object()));
+    }
+    @Test
+    public void testAsCartesian(){
+        CartesianCoordinate coordinate2 = new CartesianCoordinate(0, 3, 4);
+        CartesianCoordinate coordinate3 = new CartesianCoordinate(1.2, 2.3, 3.4);
+        CartesianCoordinate coordinate4 = new CartesianCoordinate(1.2, 0.3, 0.4);
+
+        assertEquals(coordinate2, coordinate2.asCartesianCoordinate());
+        assertEquals(coordinate3,coordinate3.asCartesianCoordinate());
+        assertEquals(coordinate4, coordinate4.asCartesianCoordinate());
+    }
+
+    @Test
+    public void testAsSperic(){
+        CartesianCoordinate coordinate1 = new CartesianCoordinate(0, 0, 0);
+        CartesianCoordinate coordinate2 = new CartesianCoordinate(0, 3, 4);
+        CartesianCoordinate coordinate3 = new CartesianCoordinate(1.2, 4.3, 3.4);
+        CartesianCoordinate coordinate4 = new CartesianCoordinate(1.2, 0.3, 0.4);
+
+        assertEquals(coordinate1, coordinate1.asSpericCoordinate());
+        assertEquals(coordinate2, coordinate2.asSpericCoordinate());
+        assertEquals(coordinate3, coordinate3.asSpericCoordinate());
+        assertEquals(coordinate4, coordinate4.asSpericCoordinate());
     }
 
     @Test

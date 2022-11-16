@@ -65,31 +65,5 @@ public class SpericCoordinate extends AbstractCoordinate{
         return this;
     }
 
-    /**
-     * Tests if 2 speric coordinates are equal
-     *
-     * @param coordinate to compare with
-     * @return true if distance is 0
-     */
-    @Override
-    public boolean isEqual(Coordinate coordinate) {
-        if(coordinate == null){
-            return false;
-        }
-        try{
-            return getCentralAngle(coordinate.asSpericCoordinate()) <= E;
-        }
-        catch (IllegalArgumentException e){
-            return false;
-        }
-    }
 
-    /**
-     * hashCode has to be overwritten as equals was overwritten
-     * @return hash from x, y, z
-     */
-    @Override
-    public int hashCode(){
-        return Objects.hash(this.getLatitude(), this.getLongitude(), this.getRadius());
-    }
 }

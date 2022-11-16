@@ -1,8 +1,12 @@
 package org.wahlzeit.model.coordinates;
 
+import java.util.Objects;
+
 public abstract class AbstractCoordinate implements Coordinate {
 
     public abstract CartesianCoordinate asCartesianCoordinate();
+
+    public abstract SpericCoordinate asSpericCoordinate();
 
     protected static final double E = 0.00001;
 
@@ -24,8 +28,6 @@ public abstract class AbstractCoordinate implements Coordinate {
         double delta_z = cartesianCoordinate2.getZ() - cartesianCoordinate1.getZ();
         return Math.sqrt(delta_x * delta_x + delta_y * delta_y + delta_z * delta_z);
     }
-
-    public abstract SpericCoordinate asSpericCoordinate();
 
     /**
      * Calculates the centralAngel between two coordinates
@@ -57,9 +59,29 @@ public abstract class AbstractCoordinate implements Coordinate {
         return Math.sin(x / 2) * Math.sin(x / 2);
     }
 
-    public abstract boolean isEqual(Coordinate coordinate);
+    /**
+     * Tests if 2 cartesian coordinates are equal
+     * @param coordinate to compare with
+     * @return true if distance is 0
+     */
+    @Override
+    public boolean isEqual(Coordinate coordinate) {
+        if (coordinate == null) {
+            return false;
+        }
+        CartesianCoordinate cartesianCoordinate = this.asCartesianCoordinate();
+        return cartesianCoordinate.getCartesianDistance(coordinate) <= E;
+    }
 
-    public abstract int hashCode();
+    /**
+     * hashCode has to be overwritten as equals was overwritten
+     * @return hash from x, y, z
+     */
+    @Override
+    public int hashCode(){
+        CartesianCoordinate coordinate = this.asCartesianCoordinate();
+        return Objects.hash(coordinate.getX(), coordinate.getY(), coordinate.getZ());
+    }
 
     /**
      * Forward equals to isequal
