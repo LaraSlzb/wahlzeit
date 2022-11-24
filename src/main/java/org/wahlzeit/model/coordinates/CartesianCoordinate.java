@@ -1,7 +1,5 @@
 package org.wahlzeit.model.coordinates;
 
-import java.util.Objects;
-
 /**
  * cartesian coordinates for location
  */
@@ -11,9 +9,15 @@ public class CartesianCoordinate extends AbstractCoordinate{
    private final double z;
 
    public CartesianCoordinate(double x, double y, double z) {
+      assertDoubleIsFinite(x);
+      assertDoubleIsFinite(y);
+      assertDoubleIsFinite(z);
+
       this.x = x;
       this.y = y;
       this.z = z;
+
+      assertClassInvariants();
    }
 
    /**
@@ -21,6 +25,8 @@ public class CartesianCoordinate extends AbstractCoordinate{
     * @methodtype=get
     */
    public double getX(){
+      assertClassInvariants();
+
       return x;
    }
 
@@ -29,6 +35,8 @@ public class CartesianCoordinate extends AbstractCoordinate{
     * @methodtype=get
     */
    public double getY() {
+      assertClassInvariants();
+
       return y;
    }
 
@@ -37,6 +45,8 @@ public class CartesianCoordinate extends AbstractCoordinate{
     * @methodtype=get
     */
    public double getZ() {
+      assertClassInvariants();
+
       return z;
    }
 
@@ -46,6 +56,8 @@ public class CartesianCoordinate extends AbstractCoordinate{
     */
    @Override
    public CartesianCoordinate asCartesianCoordinate() {
+      assertClassInvariants();
+
       return this;
    }
 
@@ -55,13 +67,34 @@ public class CartesianCoordinate extends AbstractCoordinate{
     */
    @Override
    public SpericCoordinate asSpericCoordinate() {
+      assertClassInvariants();
+
+      SpericCoordinate result;
       if(getX() == 0 && getY() == 0 && getZ() == 0){
-         return new SpericCoordinate(0,0,0);
+         result = new SpericCoordinate(0,0,0);
       }
-      double radius = this.getCartesianDistance(new CartesianCoordinate(0, 0, 0));
-      double latitude = Math.asin(getZ()/radius);
-      double longitude = getArcTan(getY(), getX());
-      return new SpericCoordinate(latitude, longitude, radius);
+      else{
+         double radius = this.getCartesianDistance(new CartesianCoordinate(0, 0, 0));
+         double latitude = Math.asin(getZ()/radius);
+         double longitude = getArcTan(getY(), getX());
+         result =  new SpericCoordinate(latitude, longitude, radius);
+      }
+
+      assert result != null : "result needs to be a SpericCoordinate";
+      assertClassInvariants();
+      return result;
+   }
+
+   @Override
+   protected void assertClassInvariants() {
+      try{
+         assertDoubleIsFinite(this.x);
+         assertDoubleIsFinite(this.y);
+         assertDoubleIsFinite(this.z);
+      }
+      catch(IllegalArgumentException e ){
+         throw new IllegalStateException(e.getMessage());
+      }
    }
 
    /**

@@ -1,7 +1,5 @@
 package org.wahlzeit.model.coordinates;
 
-import java.util.Objects;
-
 public class SpericCoordinate extends AbstractCoordinate{
 
     /**
@@ -18,6 +16,8 @@ public class SpericCoordinate extends AbstractCoordinate{
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
+
+        assertClassInvariants();
     }
 
     /**
@@ -25,6 +25,8 @@ public class SpericCoordinate extends AbstractCoordinate{
      * @methodtype=get
      */
     public double getLatitude(){
+        assertClassInvariants();
+
         return this.latitude;
     }
 
@@ -33,6 +35,8 @@ public class SpericCoordinate extends AbstractCoordinate{
      * @methodtype=get
      */
     public double getLongitude(){
+        assertClassInvariants();
+
         return this.longitude;
     }
 
@@ -41,6 +45,8 @@ public class SpericCoordinate extends AbstractCoordinate{
      * @methodtype=get
      */
     public double getRadius() {
+        assertClassInvariants();
+
         return this.radius;
     }
 
@@ -50,10 +56,16 @@ public class SpericCoordinate extends AbstractCoordinate{
      */
     @Override
     public CartesianCoordinate asCartesianCoordinate() {
+        assertClassInvariants();
+
         double x = getRadius() * Math.cos(getLatitude()) * Math.cos(getLongitude());
         double y = getRadius() * Math.cos(getLatitude()) * Math.sin(getLongitude());
         double z = getRadius() * Math.sin(getLatitude());
-        return new CartesianCoordinate(x, y, z);
+        CartesianCoordinate result = new CartesianCoordinate(x, y, z);
+
+        assert result != null: "result cannot be null";
+        assertClassInvariants();
+        return result;
     }
 
     /**
@@ -62,8 +74,16 @@ public class SpericCoordinate extends AbstractCoordinate{
      */
     @Override
     public SpericCoordinate asSpericCoordinate() {
+        assertClassInvariants();
+
         return this;
     }
 
+    @Override
+    protected void assertClassInvariants() {
+        if(this.radius < 0 || (this.longitude < 0 || this.longitude > 2*Math.PI) || (this.latitude < - Math.PI || this.latitude > Math.PI)){
+            throw new IllegalStateException("convention of SpericCoordinates are violated");
+        }
+    }
 
 }

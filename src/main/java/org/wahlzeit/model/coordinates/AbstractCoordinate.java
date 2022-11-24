@@ -8,6 +8,20 @@ public abstract class AbstractCoordinate implements Coordinate {
 
     public abstract SpericCoordinate asSpericCoordinate();
 
+    protected abstract void assertClassInvariants();
+
+    protected static void assertNotNull(Object object){
+        if(object == null){
+            throw new IllegalArgumentException("Object cannot be null");
+        }
+    }
+
+    protected static void assertDoubleIsFinite(double x){
+        if(!Double.isFinite(x)){
+            throw new IllegalArgumentException(x + " needs to be finite");
+        }
+    }
+
     protected static final double E = 0.00001;
 
     /**
@@ -18,15 +32,19 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public double getCartesianDistance(Coordinate coordinate) {
-        if (coordinate == null) {
-            throw new IllegalArgumentException("argument cannot be null");
-        }
+        assertClassInvariants();
+        assertNotNull(coordinate);
+
         CartesianCoordinate cartesianCoordinate1 = this.asCartesianCoordinate();
         CartesianCoordinate cartesianCoordinate2 = coordinate.asCartesianCoordinate();
         double delta_x = cartesianCoordinate2.getX() - cartesianCoordinate1.getX();
         double delta_y = cartesianCoordinate2.getY() - cartesianCoordinate1.getY();
         double delta_z = cartesianCoordinate2.getZ() - cartesianCoordinate1.getZ();
-        return Math.sqrt(delta_x * delta_x + delta_y * delta_y + delta_z * delta_z);
+        double result = Math.sqrt(delta_x * delta_x + delta_y * delta_y + delta_z * delta_z);
+
+        assert result >= 0 : "distance has to be greater than or equals 0";
+        assertClassInvariants();
+        return result;
     }
 
     /**
@@ -36,18 +54,26 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public double getCentralAngle(Coordinate coordinate) {
-        if (coordinate == null) {
-            throw new IllegalArgumentException("argument cannot be null");
-        }
+        assertClassInvariants();
+        //precondition 1
+        assertNotNull(coordinate);
+
         SpericCoordinate coordinate1 = this.asSpericCoordinate();
         SpericCoordinate coordinate2 = coordinate.asSpericCoordinate();
+
+        //precondition 2
         if (Math.abs(coordinate1.getRadius() - coordinate2.getRadius()) > E) {
             throw new IllegalArgumentException("coordinates have different radius");
         }
+
         double deltaLongitude = Math.abs(coordinate2.getLongitude() - coordinate1.getLongitude());
         double deltaLatitude = Math.abs(coordinate2.getLatitude() - coordinate1.getLatitude());
-        return 2 * Math.asin(Math.sqrt(hav(deltaLatitude) +
+        double result = 2 * Math.asin(Math.sqrt(hav(deltaLatitude) +
                 (1 - hav(deltaLatitude) - hav(coordinate1.getLatitude() + coordinate2.getLatitude())) * hav(deltaLongitude)));
+
+        assert result > -2*Math.PI && result < 2*Math.PI : "angle needs to be between -2*PI and 2*Pi";
+        assertClassInvariants();
+        return result;
     }
 
     /**
@@ -66,11 +92,19 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public boolean isEqual(Coordinate coordinate) {
+        assertClassInvariants();
+
+        boolean result;
         if (coordinate == null) {
-            return false;
+            result =  false;
         }
-        CartesianCoordinate cartesianCoordinate = this.asCartesianCoordinate();
-        return cartesianCoordinate.getCartesianDistance(coordinate) <= E;
+        else{
+            CartesianCoordinate cartesianCoordinate = this.asCartesianCoordinate();
+            result = cartesianCoordinate.getCartesianDistance(coordinate) <= E;
+        }
+
+        assertClassInvariants();
+        return result;
     }
 
     /**
@@ -79,8 +113,13 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public int hashCode(){
+        assertClassInvariants();
+
         CartesianCoordinate coordinate = this.asCartesianCoordinate();
-        return Objects.hash(coordinate.getX(), coordinate.getY(), coordinate.getZ());
+        int result = Objects.hash(coordinate.getX(), coordinate.getY(), coordinate.getZ());
+
+        assertClassInvariants();
+        return result;
     }
 
     /**
@@ -90,10 +129,18 @@ public abstract class AbstractCoordinate implements Coordinate {
      */
     @Override
     public boolean equals(Object o){
+        assertClassInvariants();
+
+        boolean result;
         if(o instanceof Coordinate){
-            return isEqual((Coordinate) o);
+            result = isEqual((Coordinate) o);
         }
-        return false;
+        else{
+            result = false;
+        }
+
+        assertClassInvariants();
+        return result;
     }
 }
 
