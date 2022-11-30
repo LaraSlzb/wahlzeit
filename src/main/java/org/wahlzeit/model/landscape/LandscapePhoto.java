@@ -6,6 +6,8 @@ import org.wahlzeit.model.PhotoId;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static org.wahlzeit.utils.CustomAsserts.assertNotNull;
+
 public class LandscapePhoto extends Photo {
 
     protected String country;
@@ -22,6 +24,8 @@ public class LandscapePhoto extends Photo {
      * @methodtype constructor
      */
     public LandscapePhoto(PhotoId myId) {
+        assertNotNull(myId);
+
         id = myId;
 
         incWriteCount();
@@ -32,6 +36,8 @@ public class LandscapePhoto extends Photo {
      * @methodtype constructor
      */
     public LandscapePhoto(ResultSet rset) throws SQLException {
+        assertNotNull(rset);
+
         readFrom(rset);
     }
 
@@ -39,6 +45,8 @@ public class LandscapePhoto extends Photo {
      *
      */
     public void readFrom(ResultSet rset) throws SQLException{
+        assertNotNull(rset);
+
         super.readFrom(rset);
         country = rset.getString("country");
     }
@@ -46,6 +54,8 @@ public class LandscapePhoto extends Photo {
      *
      */
     public void writeOn(ResultSet rset) throws SQLException{
+        assertNotNull(rset);
+
         super.writeOn(rset);
         rset.updateString("country", country);
     }

@@ -2,6 +2,8 @@ package org.wahlzeit.model.coordinates;
 
 import java.util.Objects;
 
+import static org.wahlzeit.utils.CustomAsserts.assertNotNull;
+
 public abstract class AbstractCoordinate implements Coordinate {
 
     public abstract CartesianCoordinate asCartesianCoordinate();
@@ -10,17 +12,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 
     protected abstract void assertClassInvariants();
 
-    protected static void assertNotNull(Object object){
-        if(object == null){
-            throw new IllegalArgumentException("Object cannot be null");
-        }
-    }
 
-    protected static void assertDoubleIsFinite(double x){
-        if(!Double.isFinite(x)){
-            throw new IllegalArgumentException(x + " needs to be finite");
-        }
-    }
 
     protected static final double E = 0.00001;
 
@@ -55,13 +47,23 @@ public abstract class AbstractCoordinate implements Coordinate {
     @Override
     public double getCentralAngle(Coordinate coordinate) {
         assertClassInvariants();
-        //precondition 1
         assertNotNull(coordinate);
 
-        SpericCoordinate coordinate1 = this.asSpericCoordinate();
-        SpericCoordinate coordinate2 = coordinate.asSpericCoordinate();
+        SpericCoordinate coordinate1;
+        SpericCoordinate coordinate2;
+        try{
+            coordinate1 = this.asSpericCoordinate();
+        }
+        catch(IllegalArgumentException e){
+            throw new IllegalStateException("the object could not be converted to a SpericCoordina");
+        }
+        try{
+            coordinate2 = coordinate.asSpericCoordinate();
+        }
+        catch(IllegalArgumentException e){
+            throw new IllegalArgumentException("coordinate could not be converted to SpericCoordinate");
+        }
 
-        //precondition 2
         if (Math.abs(coordinate1.getRadius() - coordinate2.getRadius()) > E) {
             throw new IllegalArgumentException("coordinates have different radius");
         }
@@ -95,12 +97,12 @@ public abstract class AbstractCoordinate implements Coordinate {
         assertClassInvariants();
 
         boolean result;
-        if (coordinate == null) {
-            result =  false;
-        }
-        else{
-            CartesianCoordinate cartesianCoordinate = this.asCartesianCoordinate();
+        CartesianCoordinate cartesianCoordinate = this.asCartesianCoordinate();
+        try{
             result = cartesianCoordinate.getCartesianDistance(coordinate) <= E;
+        }
+        catch (IllegalArgumentException e){
+            result = false;
         }
 
         assertClassInvariants();
@@ -132,10 +134,10 @@ public abstract class AbstractCoordinate implements Coordinate {
         assertClassInvariants();
 
         boolean result;
-        if(o instanceof Coordinate){
+        try{
             result = isEqual((Coordinate) o);
         }
-        else{
+        catch (IllegalArgumentException  | ClassCastException e){
             result = false;
         }
 

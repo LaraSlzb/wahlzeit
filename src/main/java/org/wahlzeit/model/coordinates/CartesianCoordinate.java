@@ -1,5 +1,7 @@
 package org.wahlzeit.model.coordinates;
 
+import static org.wahlzeit.utils.CustomAsserts.assertDoubleIsFinite;
+
 /**
  * cartesian coordinates for location
  */
