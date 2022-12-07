@@ -11,14 +11,14 @@ public class CartesianCoordinateTest {
     double e = 0.00001;
     @Test
     public void testGet(){
-        double x = -5;
+        double x = -5.45491;
         double y = 0;
-        double z = 3.45;
+        double z = 3.45457;
         CartesianCoordinate coordinate = CoordinateManager.getCartesianCoordinate(x, y, z);
 
-        assertEquals(x, coordinate.getX(), e);
+        assertEquals(-5.4549, coordinate.getX(), e);
         assertEquals(y, coordinate.getY(), e);
-        assertEquals(z, coordinate.getZ(), e);
+        assertEquals(3.4546, coordinate.getZ(), e);
     }
 
     @Test

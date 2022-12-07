@@ -12,13 +12,13 @@ public class SpericCoordinateTest {
     double e = 0.0001;
     @Test
     public void testGet(){
-        double longitute = 3.45;
-        double latitude = -2;
+        double longitute = 3.45343;
+        double latitude = -2.99989;
         double radius = 0;
         SpericCoordinate coordinate = CoordinateManager.getSpericCoordinate(latitude, longitute, radius);
 
-        assertEquals(longitute, coordinate.getLongitude(), e);
-        assertEquals(latitude, coordinate.getLatitude(), e);
+        assertEquals(3.4534, coordinate.getLongitude(), e);
+        assertEquals(-2.9999, coordinate.getLatitude(), e);
         assertEquals(radius, coordinate.getRadius(), e);
     }
 

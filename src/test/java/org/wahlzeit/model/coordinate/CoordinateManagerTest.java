@@ -15,23 +15,7 @@ public class CoordinateManagerTest {
         assertEquals(-1.0001, CoordinateManager.unifyDouble(-1.00005), 0);
     }
 
-    @Test
-    public void testGetKeyCartesian(){
-        double x = 0;
-        double y = 34.324343434;
-        double z = -1.23;
 
-        assertEquals("x = 0,0000 y = 34,3243 z = -1,2300", CoordinateManager.getKeyCartesian(x,y,z));
-    }
-
-    @Test
-    public void testGetKeySperic(){
-        double latitude = 0;
-        double longitude = 34.324343434;
-        double radius = -1.23;
-
-        assertEquals("latitude = 0,0000 longitude = 34,3243 radius = -1,2300", CoordinateManager.getKeySperic(latitude, longitude, radius));
-    }
 
     @Test
     public void testgetSpericCoordinateWithKey(){
