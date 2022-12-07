@@ -1,5 +1,6 @@
 package org.wahlzeit.model.landscape;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.MockedStatic;
 import org.wahlzeit.model.PhotoId;
@@ -13,6 +14,7 @@ import static org.mockito.Mockito.*;
 
 public class LandscapePhotoUtilTest {
 
+    @Ignore
     @Test
     public void createPhoto() throws Exception {
         File file = mock(File.class);

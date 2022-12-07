@@ -1,6 +1,7 @@
 package org.wahlzeit.model.coordinate;
 
 import org.junit.Test;
+import org.wahlzeit.model.coordinates.CartesianCoordinate;
 import org.wahlzeit.model.coordinates.CoordinateManager;
 import org.wahlzeit.model.coordinates.SpericCoordinate;
 
@@ -145,5 +146,11 @@ public class SpericCoordinateTest {
         SpericCoordinate coordinate4 = CoordinateManager.getSpericCoordinate(1.2, 0.3, 0.4);
 
         coordinate3.getCentralAngle(coordinate4);
+    }
+
+    @Test
+    public void testEqualsExtreme(){
+        SpericCoordinate coordinate = CoordinateManager.getSpericCoordinate(-2.32434, 0, 34324.32434324);
+        assertEquals(coordinate, coordinate.asCartesianCoordinate().asSpericCoordinate().asCartesianCoordinate().asSpericCoordinate().asCartesianCoordinate().asSpericCoordinate());
     }
 }

@@ -139,4 +139,10 @@ public class CartesianCoordinateTest {
 
         coordinate3.getCentralAngle(coordinate4);
     }
+
+    @Test
+    public void testEqualsExtreme(){
+        CartesianCoordinate coordinate = CoordinateManager.getCartesianCoordinate(2.32434, 0, -34324.32434324);
+        assertEquals(coordinate, coordinate.asSpericCoordinate().asCartesianCoordinate().asSpericCoordinate().asCartesianCoordinate().asSpericCoordinate().asCartesianCoordinate());
+    }
 }
