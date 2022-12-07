@@ -2,7 +2,7 @@ package org.wahlzeit.model.coordinate;
 
 import org.junit.Test;
 import org.wahlzeit.model.coordinates.CartesianCoordinate;
-import org.wahlzeit.model.coordinates.SpericCoordinate;
+import org.wahlzeit.model.coordinates.CoordinateManager;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +14,7 @@ public class CartesianCoordinateTest {
         double x = -5;
         double y = 0;
         double z = 3.45;
-        CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
+        CartesianCoordinate coordinate = CoordinateManager.getCartesianCoordinate(x, y, z);
 
         assertEquals(x, coordinate.getX(), e);
         assertEquals(y, coordinate.getY(), e);
@@ -23,12 +23,12 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testGetDistance(){
-        CartesianCoordinate coordinate1 = new CartesianCoordinate(0,0,0);
-        CartesianCoordinate coordinate2 = new CartesianCoordinate(0, 3, -4);
-        CartesianCoordinate coordinate3 = new CartesianCoordinate(1.2, 4.3, 3.4);
-        CartesianCoordinate coordinate4 = new CartesianCoordinate(1.2,0.3,0.4);
-        CartesianCoordinate coordinate5 = new CartesianCoordinate(0, 0, Double.MAX_VALUE);
-        CartesianCoordinate coordinate6 = new CartesianCoordinate(0, 0, Double.MIN_VALUE);
+        CartesianCoordinate coordinate1 = CoordinateManager.getCartesianCoordinate(0,0,0);
+        CartesianCoordinate coordinate2 = CoordinateManager.getCartesianCoordinate(0, 3, -4);
+        CartesianCoordinate coordinate3 = CoordinateManager.getCartesianCoordinate(1.2, 4.3, 3.4);
+        CartesianCoordinate coordinate4 = CoordinateManager.getCartesianCoordinate(1.2,0.3,0.4);
+        CartesianCoordinate coordinate5 = CoordinateManager.getCartesianCoordinate(0, 0, Double.MAX_VALUE);
+        CartesianCoordinate coordinate6 = CoordinateManager.getCartesianCoordinate(0, 0, Double.MIN_VALUE);
 
         assertEquals(0, coordinate1.getCartesianDistance(coordinate1), e);
         assertEquals(0, coordinate2.getCartesianDistance(coordinate2), e);
@@ -48,19 +48,19 @@ public class CartesianCoordinateTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetDistanceWithNullArgument(){
-        CartesianCoordinate coordinate = new CartesianCoordinate(0, 0, 0);
+        CartesianCoordinate coordinate = CoordinateManager.getCartesianCoordinate(0, 0, 0);
         coordinate.getCartesianDistance(null);
     }
 
     @Test
     public void testIsEqual() {
-        CartesianCoordinate coordinate0 = new CartesianCoordinate(0, 0, 0);
-        CartesianCoordinate coordinate1 = new CartesianCoordinate(0, 0, 0);
-        CartesianCoordinate coordinate2 = new CartesianCoordinate(0, 3, -4);
-        CartesianCoordinate coordinate3 = new CartesianCoordinate(1.2, 4.3, 3.4);
-        CartesianCoordinate coordinate4 = new CartesianCoordinate(1.2, 0.3, 0.4);
-        CartesianCoordinate coordinate5 = new CartesianCoordinate(0, 0, Double.MAX_VALUE);
-        CartesianCoordinate coordinate6 = new CartesianCoordinate(0, 0, Double.MIN_VALUE);
+        CartesianCoordinate coordinate0 = CoordinateManager.getCartesianCoordinate(0, 0, 0);
+        CartesianCoordinate coordinate1 = CoordinateManager.getCartesianCoordinate(0, 0, 0);
+        CartesianCoordinate coordinate2 = CoordinateManager.getCartesianCoordinate(0, 3, -4);
+        CartesianCoordinate coordinate3 = CoordinateManager.getCartesianCoordinate(1.2, 4.3, 3.4);
+        CartesianCoordinate coordinate4 = CoordinateManager.getCartesianCoordinate(1.2, 0.3, 0.4);
+        CartesianCoordinate coordinate5 = CoordinateManager.getCartesianCoordinate(0, 0, Double.MAX_VALUE);
+        CartesianCoordinate coordinate6 = CoordinateManager.getCartesianCoordinate(0, 0, Double.MIN_VALUE);
 
         assertTrue(coordinate0.isEqual(coordinate1));
         assertTrue(coordinate1.isEqual(coordinate1));
@@ -79,9 +79,9 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testEqualsAndHashCode(){
-        CartesianCoordinate coordinate1 = new CartesianCoordinate(0, 0, 0);
-        CartesianCoordinate coordinate2 = new CartesianCoordinate(0, 3, -4);
-        CartesianCoordinate coordinate3 = new CartesianCoordinate(0, 3, -4);
+        CartesianCoordinate coordinate1 = CoordinateManager.getCartesianCoordinate(0, 0, 0);
+        CartesianCoordinate coordinate2 = CoordinateManager.getCartesianCoordinate(0, 3, -4);
+        CartesianCoordinate coordinate3 = CoordinateManager.getCartesianCoordinate(0, 3, -4);
 
         assertTrue(coordinate1.equals(coordinate1));
         assertTrue(coordinate2.equals(coordinate3));
@@ -92,9 +92,9 @@ public class CartesianCoordinateTest {
     }
     @Test
     public void testAsCartesian(){
-        CartesianCoordinate coordinate2 = new CartesianCoordinate(0, 3, 4);
-        CartesianCoordinate coordinate3 = new CartesianCoordinate(1.2, 2.3, 3.4);
-        CartesianCoordinate coordinate4 = new CartesianCoordinate(1.2, 0.3, 0.4);
+        CartesianCoordinate coordinate2 = CoordinateManager.getCartesianCoordinate(0, 3, 4);
+        CartesianCoordinate coordinate3 = CoordinateManager.getCartesianCoordinate(1.2, 2.3, 3.4);
+        CartesianCoordinate coordinate4 = CoordinateManager.getCartesianCoordinate(1.2, 0.3, 0.4);
 
         assertEquals(coordinate2, coordinate2.asCartesianCoordinate());
         assertEquals(coordinate3,coordinate3.asCartesianCoordinate());
@@ -103,10 +103,10 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testAsSperic(){
-        CartesianCoordinate coordinate1 = new CartesianCoordinate(0, 0, 0);
-        CartesianCoordinate coordinate2 = new CartesianCoordinate(0, 3, 4);
-        CartesianCoordinate coordinate3 = new CartesianCoordinate(1.2, 4.3, 3.4);
-        CartesianCoordinate coordinate4 = new CartesianCoordinate(1.2, 0.3, 0.4);
+        CartesianCoordinate coordinate1 = CoordinateManager.getCartesianCoordinate(0, 0, 0);
+        CartesianCoordinate coordinate2 = CoordinateManager.getCartesianCoordinate(0, 3, 4);
+        CartesianCoordinate coordinate3 = CoordinateManager.getCartesianCoordinate(1.21, 4.31, 3.41);
+        CartesianCoordinate coordinate4 = CoordinateManager.getCartesianCoordinate(1.2, 0.3, 0.4);
 
         assertEquals(coordinate1, coordinate1.asSpericCoordinate());
         assertEquals(coordinate2, coordinate2.asSpericCoordinate());
@@ -116,9 +116,9 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testGetCentralAngel(){
-        CartesianCoordinate coordinate2 = new CartesianCoordinate(0, 3, 4);
-        CartesianCoordinate coordinate3 = new CartesianCoordinate(3, 4, 0);
-        CartesianCoordinate coordinate4 = new CartesianCoordinate(1.2, 0.3, 0);
+        CartesianCoordinate coordinate2 = CoordinateManager.getCartesianCoordinate(0, 3, 4);
+        CartesianCoordinate coordinate3 = CoordinateManager.getCartesianCoordinate(3, 4, 0);
+        CartesianCoordinate coordinate4 = CoordinateManager.getCartesianCoordinate(1.2, 0.3, 0);
 
         assertEquals(0, coordinate2.getCentralAngle(coordinate2), e);
         assertEquals(0, coordinate3.getCentralAngle(coordinate3), e);
@@ -134,8 +134,8 @@ public class CartesianCoordinateTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetCentralAngelWithDifferentRadius(){
-        CartesianCoordinate coordinate3 = new CartesianCoordinate(1.2, 4.3, 4);
-        CartesianCoordinate coordinate4 = new CartesianCoordinate(1.2, 0.3, 0.4);
+        CartesianCoordinate coordinate3 = CoordinateManager.getCartesianCoordinate(1.2, 4.3, 4);
+        CartesianCoordinate coordinate4 = CoordinateManager.getCartesianCoordinate(1.2, 0.3, 0.4);
 
         coordinate3.getCentralAngle(coordinate4);
     }

@@ -8,14 +8,14 @@ public class SpericCoordinate extends AbstractCoordinate{
     private final double latitude;
     private final double longitude;
     private final double radius;
-
-    public SpericCoordinate(double latitude, double longitude, double radius){
+    private String keyCartesian;
+    protected SpericCoordinate(double latitude, double longitude, double radius){
         if(radius < 0 || (longitude < 0 || longitude > 2*Math.PI) || (latitude < - Math.PI || latitude > Math.PI)){
             throw new IllegalArgumentException("convention of SpericCoordinates are violated");
         }
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.radius = radius;
+        this.latitude = CoordinateManager.unifyDouble(latitude);
+        this.longitude = CoordinateManager.unifyDouble(longitude);
+        this.radius = CoordinateManager.unifyDouble(radius);
 
         assertClassInvariants();
     }
@@ -51,6 +51,22 @@ public class SpericCoordinate extends AbstractCoordinate{
     }
 
     /**
+     *
+     * @methodtype=get
+     */
+    protected String getKeyCartesian(){
+        return keyCartesian;
+    }
+
+    /**
+     *
+     * @methodtype=set
+     */
+    protected void setKeyCartesian(String keyCartesian){
+        this.keyCartesian = keyCartesian;
+    }
+
+    /**
      * Converts spericCoordinate to cartesianCoordinate
      * @return cartesianCoordinate
      */
@@ -58,10 +74,18 @@ public class SpericCoordinate extends AbstractCoordinate{
     public CartesianCoordinate asCartesianCoordinate() {
         assertClassInvariants();
 
-        double x = getRadius() * Math.cos(getLatitude()) * Math.cos(getLongitude());
-        double y = getRadius() * Math.cos(getLatitude()) * Math.sin(getLongitude());
-        double z = getRadius() * Math.sin(getLatitude());
-        CartesianCoordinate result = new CartesianCoordinate(x, y, z);
+        CartesianCoordinate result = null;
+        if(getKeyCartesian() != null){
+            result = CoordinateManager.getCartesianCoordinate(getKeyCartesian());
+        }
+        if(result == null){
+            double x = getRadius() * Math.cos(getLatitude()) * Math.cos(getLongitude());
+            double y = getRadius() * Math.cos(getLatitude()) * Math.sin(getLongitude());
+            double z = getRadius() * Math.sin(getLatitude());
+
+            result = CoordinateManager.getCartesianCoordinate(x, y, z);
+            result.setKeySperic(CoordinateManager.getKeySperic(getLatitude(), getLongitude(), getRadius()));
+        }
 
         assert result != null: "result cannot be null";
         assertClassInvariants();

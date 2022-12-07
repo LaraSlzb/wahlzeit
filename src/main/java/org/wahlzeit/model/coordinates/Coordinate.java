@@ -6,4 +6,5 @@ public interface Coordinate {
     SpericCoordinate asSpericCoordinate();
     double getCentralAngle(Coordinate coordinate);
     boolean isEqual(Coordinate coordinate);
+    String asString();
 }

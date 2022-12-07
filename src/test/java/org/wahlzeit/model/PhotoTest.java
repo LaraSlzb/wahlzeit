@@ -3,6 +3,7 @@ package org.wahlzeit.model;
 import org.junit.Before;
 import org.junit.Test;
 import org.wahlzeit.model.coordinates.CartesianCoordinate;
+import org.wahlzeit.model.coordinates.CoordinateManager;
 import org.wahlzeit.model.coordinates.SpericCoordinate;
 
 import static org.junit.Assert.assertEquals;
@@ -20,7 +21,7 @@ public class PhotoTest {
     public void testLocationWithCartesianCoordinate(){
         assertNull(photo.getLocation());
 
-        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(0, 0, 1);
+        CartesianCoordinate cartesianCoordinate = CoordinateManager.getCartesianCoordinate(0, 0, 1);
         Location location = new Location(cartesianCoordinate,  1);
         photo.setLocation(location);
         assertEquals(location, photo.getLocation());
