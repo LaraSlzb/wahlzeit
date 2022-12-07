@@ -1,7 +1,5 @@
 package org.wahlzeit.model.coordinates;
 
-import java.util.Objects;
-
 import static org.wahlzeit.utils.CustomAsserts.assertNotNull;
 
 public abstract class AbstractCoordinate implements Coordinate {
@@ -11,7 +9,6 @@ public abstract class AbstractCoordinate implements Coordinate {
     public abstract SpericCoordinate asSpericCoordinate();
 
     protected abstract void assertClassInvariants();
-
 
 
     protected static final double E = 0.00001;
@@ -97,12 +94,12 @@ public abstract class AbstractCoordinate implements Coordinate {
         assertClassInvariants();
 
         boolean result;
-        CartesianCoordinate cartesianCoordinate = this.asCartesianCoordinate();
-        try{
-            result = cartesianCoordinate.getCartesianDistance(coordinate) <= E;
-        }
-        catch (IllegalArgumentException e){
+        if(coordinate == null){
             result = false;
+        }
+        else{
+            result = this.asString().equals(coordinate.asString());
+
         }
 
         assertClassInvariants();
@@ -117,8 +114,7 @@ public abstract class AbstractCoordinate implements Coordinate {
     public int hashCode(){
         assertClassInvariants();
 
-        CartesianCoordinate coordinate = this.asCartesianCoordinate();
-        int result = Objects.hash(coordinate.getX(), coordinate.getY(), coordinate.getZ());
+        int result = asString().hashCode();
 
         assertClassInvariants();
         return result;
@@ -133,17 +129,24 @@ public abstract class AbstractCoordinate implements Coordinate {
     public boolean equals(Object o){
         assertClassInvariants();
 
-        boolean result;
-        try{
-            result = isEqual((Coordinate) o);
-        }
-        catch (IllegalArgumentException  | ClassCastException e){
-            result = false;
-        }
+        if((o == null) || !(o instanceof Coordinate)) return false;
+
+        boolean result = isEqual((Coordinate) o);
 
         assertClassInvariants();
         return result;
     }
+
+    public String asString(){
+        assertClassInvariants();
+
+        CartesianCoordinate coordinate = this.asCartesianCoordinate();
+        String result = "Cartesian Coordinate with x =" + coordinate.getX() + ", y =" + coordinate.getY() + "and z = " + coordinate.getZ();
+
+        assertClassInvariants();
+        return result;
+    }
+
 }
 
 

@@ -1,7 +1,7 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.model.coordinates.CartesianCoordinate;
 import org.wahlzeit.model.coordinates.Coordinate;
+import org.wahlzeit.model.coordinates.CoordinateManager;
 import org.wahlzeit.services.DataObject;
 
 import java.sql.PreparedStatement;
@@ -67,8 +67,7 @@ public class Location extends DataObject{
     @Override
     public void readFrom(ResultSet rset) throws SQLException {
         this.id = rset.getInt("id");
-        this.coordinate = new CartesianCoordinate(rset.getDouble("x"),
-                rset.getDouble("y"), rset.getDouble("z"));
+        this.coordinate = CoordinateManager.getCartesianCoordinate(rset.getDouble("x"), rset.getDouble("y"), rset.getDouble("z"));
     }
 
     @Override

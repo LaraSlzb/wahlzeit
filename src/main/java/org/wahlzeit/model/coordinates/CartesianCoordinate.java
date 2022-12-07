@@ -6,18 +6,20 @@ import static org.wahlzeit.utils.CustomAsserts.assertDoubleIsFinite;
  * cartesian coordinates for location
  */
 public class CartesianCoordinate extends AbstractCoordinate{
+
+   private String keySperic;
    private final double x;
    private final double y;
    private final double z;
 
-   public CartesianCoordinate(double x, double y, double z) {
+   protected CartesianCoordinate(double x, double y, double z) {
       assertDoubleIsFinite(x);
       assertDoubleIsFinite(y);
       assertDoubleIsFinite(z);
 
-      this.x = x;
-      this.y = y;
-      this.z = z;
+      this.x = CoordinateManager.unifyDouble(x);
+      this.y = CoordinateManager.unifyDouble(y);
+      this.z = CoordinateManager.unifyDouble(z);;
 
       assertClassInvariants();
    }
@@ -53,6 +55,22 @@ public class CartesianCoordinate extends AbstractCoordinate{
    }
 
    /**
+    *
+    * @methodtype=get
+    */
+   protected String getKeySperic(){
+      return keySperic;
+   }
+
+   /**
+    *
+    * @methodtype=set
+    */
+   protected void setKeySperic(String keySperic){
+      this.keySperic = keySperic;
+   }
+
+   /**
     * Converts coorinate to a CartesianCoordinate
     * @return itself
     */
@@ -71,15 +89,24 @@ public class CartesianCoordinate extends AbstractCoordinate{
    public SpericCoordinate asSpericCoordinate() {
       assertClassInvariants();
 
-      SpericCoordinate result;
-      if(getX() == 0 && getY() == 0 && getZ() == 0){
-         result = new SpericCoordinate(0,0,0);
+      SpericCoordinate result = null;
+      if(getKeySperic() != null){
+         result = CoordinateManager.getSpericCoordinate(getKeySperic());
       }
-      else{
-         double radius = this.getCartesianDistance(new CartesianCoordinate(0, 0, 0));
-         double latitude = Math.asin(getZ()/radius);
-         double longitude = getArcTan(getY(), getX());
-         result =  new SpericCoordinate(latitude, longitude, radius);
+      if(result == null){
+         double latitude, longitude, radius;
+         if(getX() == 0 && getY() == 0 && getZ() == 0){
+            latitude = 0;
+            longitude = 0;
+            radius = 0;
+         }
+         else{
+            radius = this.getCartesianDistance(new CartesianCoordinate(0, 0, 0));
+            latitude = Math.asin(getZ()/radius);
+            longitude = getArcTan(getY(), getX());
+         }
+         result =  CoordinateManager.getSpericCoordinate(latitude, longitude, radius);
+         result.setKeyCartesian(CoordinateManager.getKeyCartesian(getX(), getY(), getZ()));
       }
 
       assert result != null : "result needs to be a SpericCoordinate";
@@ -123,6 +150,4 @@ public class CartesianCoordinate extends AbstractCoordinate{
       }
       return Math.atan(y/x);
    }
-
-
 }
