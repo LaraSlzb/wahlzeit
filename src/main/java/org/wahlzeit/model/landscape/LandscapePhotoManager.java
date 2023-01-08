@@ -1,11 +1,16 @@
 package org.wahlzeit.model.landscape;
 
 import org.wahlzeit.model.*;
+import org.wahlzeit.utils.PatternInstance;
 
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@PatternInstance(
+        patternName = "Singleton",
+        participiants = {"Singleton"}
+)
 public class LandscapePhotoManager extends PhotoManager{
 
     protected static LandscapePhotoManager instance = new LandscapePhotoManager();

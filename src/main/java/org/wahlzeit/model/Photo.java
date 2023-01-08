@@ -10,12 +10,22 @@ import java.net.*;
 
 import org.wahlzeit.services.*;
 import org.wahlzeit.utils.*;
-
 /**
  * A photo represents a user-provided (uploaded) photo.
  */
+@PatternInstance(
+		patternName = "Abstract Factory",
+		participiants = {"ConcreteProductA1, AbstractProductA"}
+)
+@PatternInstance(
+		patternName = "Dekorierer",
+		participiants = "KonkreteKomponente"
+)
+@PatternInstance(
+		patternName = "State",
+		participiants = "context"
+)
 public class Photo extends DataObject {
-
 	/**
 	 * 
 	 */

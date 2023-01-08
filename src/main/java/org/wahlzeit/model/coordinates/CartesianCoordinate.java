@@ -1,7 +1,15 @@
 package org.wahlzeit.model.coordinates;
 
+import org.wahlzeit.utils.PatternInstance;
+
 import static org.wahlzeit.utils.CustomAsserts.assertDoubleIsFinite;
 
+@PatternInstance(
+        patternName = "Facade",
+        participiants = {
+                "Class1"
+        }
+)
 /**
  * cartesian coordinates for location
  */

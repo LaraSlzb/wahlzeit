@@ -2,12 +2,20 @@ package org.wahlzeit.model.landscape;
 
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoId;
+import org.wahlzeit.utils.PatternInstance;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.wahlzeit.utils.CustomAsserts.assertNotNull;
-
+@PatternInstance(
+        patternName = "Abstract Factory",
+        participiants = {"ConcreteProductA2" }
+)
+@PatternInstance(
+        patternName = "Dekorierer",
+        participiants = "ErweiterteKomponente"
+)
 public class LandscapePhoto extends Photo {
 
     protected String country;

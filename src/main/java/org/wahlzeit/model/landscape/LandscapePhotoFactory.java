@@ -3,10 +3,15 @@ package org.wahlzeit.model.landscape;
 import org.wahlzeit.model.PhotoFactory;
 import org.wahlzeit.model.PhotoId;
 import org.wahlzeit.services.SysLog;
+import org.wahlzeit.utils.PatternInstance;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@PatternInstance(
+        patternName = "Abstract Factory",
+        participiants = {"ConcreteFactory2"}
+)
 public class LandscapePhotoFactory extends PhotoFactory {
     /**
      * Hidden singleton instance; needs to be initialized from the outside.

@@ -1,5 +1,13 @@
 package org.wahlzeit.model.coordinates;
 
+import org.wahlzeit.utils.PatternInstance;
+
+@PatternInstance(
+        patternName = "Facade",
+        participiants = {
+                "Class2"
+        }
+)
 public class SpericCoordinate extends AbstractCoordinate{
 
     /**

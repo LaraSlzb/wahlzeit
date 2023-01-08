@@ -1,7 +1,14 @@
 package org.wahlzeit.model.coordinates;
 
-import static org.wahlzeit.utils.CustomAsserts.assertNotNull;
+import org.wahlzeit.utils.PatternInstance;
 
+import static org.wahlzeit.utils.CustomAsserts.assertNotNull;
+@PatternInstance(
+        patternName = "Facade",
+        participiants = {
+                "Facade"
+        }
+)
 public abstract class AbstractCoordinate implements Coordinate {
 
     public abstract CartesianCoordinate asCartesianCoordinate();
