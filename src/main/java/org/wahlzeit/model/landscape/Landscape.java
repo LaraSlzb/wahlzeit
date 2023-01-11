@@ -1,5 +1,7 @@
 package org.wahlzeit.model.landscape;
 
+import org.wahlzeit.utils.CustomAsserts;
+
 public class Landscape {
     private LandscapeType landscapeType;
 
@@ -8,6 +10,8 @@ public class Landscape {
      * @methodtype constructor
      */
     public Landscape(LandscapeType landscapeType){
+        CustomAsserts.assertNotNull(landscapeType);
+
         this.landscapeType = landscapeType;
     }
 

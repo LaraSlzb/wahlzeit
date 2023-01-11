@@ -1,5 +1,7 @@
 package org.wahlzeit.model.landscape;
 
+import org.wahlzeit.utils.CustomAsserts;
+
 import java.util.HashMap;
 
 public class LandscapeManager {
@@ -8,7 +10,7 @@ public class LandscapeManager {
     private HashMap<Integer, Landscape> landscapes = new HashMap<>();
     private HashMap<String, LandscapeType> landscapeTypes = new HashMap<>();
 
-    protected static LandscapeManager instance = new LandscapeManager();
+    protected static LandscapeManager instance = null;
 
 
     public LandscapeManager(){
@@ -16,18 +18,38 @@ public class LandscapeManager {
     }
 
     public static LandscapeManager getInstance() {
+        if(instance == null){
+            instance = new LandscapeManager();
+        }
         return instance;
     }
 
+    /**
+     *
+     * @methodtype get
+     */
+    public Landscape getLandscape(Integer id){
+        return landscapes.get(id);
+    }
+
+    /**
+     *
+     * @methodtype get
+     */
+    public LandscapeType getLandscapeType(String value){
+        return landscapeTypes.get(value);
+    }
     /**
      * creates a new landscape instance
      * @param landscapeType type of the landscape
      * @return new landscape instance
      */
     public Landscape createLandscape(String landscapeType){
+        CustomAsserts.assertNotNull(landscapeType);
+
         LandscapeType type = landscapeTypes.get(landscapeType);
         if(type == null){
-            createLandscapeType(landscapeType, null);
+           type = createLandscapeType(landscapeType, null);
         }
         Landscape result = type.createInstance();
         landscapes.put(result.getId(), result);

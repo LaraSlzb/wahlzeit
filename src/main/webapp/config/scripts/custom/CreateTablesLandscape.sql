@@ -38,7 +38,8 @@ CREATE TABLE photos (
 	no_votes integer,
 	creation_time bigint,
 	location_id integer REFERENCES location(id),
-	country text
+	country text,
+	landscape text
 );
 
 CREATE TABLE tags (

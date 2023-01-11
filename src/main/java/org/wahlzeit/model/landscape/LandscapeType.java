@@ -17,6 +17,8 @@ public class LandscapeType {
      * @methodtype constructor
      */
     public LandscapeType(String value){
+        CustomAsserts.assertNotNull(value);
+
         this.value = value;
     }
     public Landscape createInstance(){

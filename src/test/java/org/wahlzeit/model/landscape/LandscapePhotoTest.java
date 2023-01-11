@@ -27,6 +27,17 @@ public class LandscapePhotoTest {
      }
 
      @Test
+     public void getAndSetLandscape(){
+         LandscapePhoto landscapePhoto = new LandscapePhoto();
+
+         assertNull(landscapePhoto.getLandscape());
+
+         String type = "WORLD";
+         landscapePhoto.setLandscape(type);
+
+         assertEquals(type, landscapePhoto.getLandscape().getLandscapeType().getValue());
+     }
+     @Test
     public void readFrom() throws SQLException {
          ResultSet rset = Mockito.mock(ResultSet.class);
          //needs to be initizalised because of validation

@@ -58,7 +58,10 @@ public class LandscapePhoto extends Photo {
 
         super.readFrom(rset);
         country = rset.getString("country");
-        landscape = LandscapeManager.getInstance().createLandscape(rset.getString("landscape"));
+        String landscapeType = rset.getString("landscape");
+        if(landscapeType != null){
+            landscape = LandscapeManager.getInstance().createLandscape(landscapeType);
+        }
     }
     /**
      *
@@ -68,7 +71,9 @@ public class LandscapePhoto extends Photo {
 
         super.writeOn(rset);
         rset.updateString("country", country);
-        rset.updateString("landscape", landscape.getLandscapeType().getValue());
+        if(landscape != null && landscape.getLandscapeType() != null){
+            rset.updateString("landscape", landscape.getLandscapeType().getValue());
+        }
     }
 
     /**
