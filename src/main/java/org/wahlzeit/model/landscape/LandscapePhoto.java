@@ -19,6 +19,7 @@ import static org.wahlzeit.utils.CustomAsserts.assertNotNull;
 public class LandscapePhoto extends Photo {
 
     protected String country;
+    protected Landscape landscape;
     /**
      *
      */
@@ -57,6 +58,7 @@ public class LandscapePhoto extends Photo {
 
         super.readFrom(rset);
         country = rset.getString("country");
+        landscape = LandscapeManager.getInstance().createLandscape(rset.getString("landscape"));
     }
     /**
      *
@@ -66,6 +68,7 @@ public class LandscapePhoto extends Photo {
 
         super.writeOn(rset);
         rset.updateString("country", country);
+        rset.updateString("landscape", landscape.getLandscapeType().getValue());
     }
 
     /**
@@ -82,6 +85,23 @@ public class LandscapePhoto extends Photo {
      */
     public void setCountry(String newCountry) {
         country = newCountry;
+        incWriteCount();
+    }
+
+    /**
+     *
+     * @methodtype get
+     */
+    public Landscape getLandscape() {
+        return landscape;
+    }
+
+    /**
+     *
+     * @methodtype set
+     */
+    public void setLandscape(String landscapeType) {
+        landscape = LandscapeManager.getInstance().createLandscape(landscapeType);
         incWriteCount();
     }
 }
